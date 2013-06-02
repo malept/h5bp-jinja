@@ -15,6 +15,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+try:
+    import argcomplete
+except ImportError:
+    argcomplete = None
 import argparse
 from itertools import chain
 import os.path
@@ -67,12 +71,25 @@ SUBS = [
     (re.compile(ur'<p>.*?</p>'), ur'{% block content %}{% endblock %}'),
 ]
 
+if argcomplete:
+
+    def directory_completer(prefix, **kwargs):
+        dirname = os.path.dirname(prefix)
+        r_dirname = dirname
+        if not dirname:
+            dirname = os.getcwd()
+        basename = os.path.basename(prefix)
+        return (os.path.join(r_dirname, f) for f in os.listdir(dirname)
+                if f.startswith(basename) and os.path.isdir(f))
+
 
 def parse_args(prog, args):
     parser = argparse.ArgumentParser(prog=prog, description=DESCRIPTION)
-    parser.add_argument('template_dir', metavar='TEMPLATE_DIR',
-                        help='The directory containing the HTML5 Boilerplate '
-                             'git checkout.')
+    arg = parser.add_argument('template_dir', metavar='TEMPLATE_DIR',
+                              help='The directory containing the HTML5 '
+                                   'Boilerplate git checkout.')
+    if argcomplete:
+        arg.completer = directory_completer
     parser.add_argument('output_filename', metavar='OUTPUT_FILENAME',
                         help='The path where the Jinja template should be '
                              'written.')
@@ -91,6 +108,8 @@ def parse_args(prog, args):
     parser.add_argument('--no-compat-tag', action='store_true', default=False,
                         help='Remove the X-UA-Compatible meta tag (you would '
                              'need to use the HTTP header instead).')
+    if argcomplete:
+        argcomplete.autocomplete(parser)
     return parser.parse_args(args)
 
 
