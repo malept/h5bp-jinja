@@ -14,57 +14,58 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from ._compat import _iterify
 from itertools import chain
 import re
 
 OPTIONAL_SUBS = {
     # Google Analytics ID in config
-    'google_analytics': [(re.compile(ur"'UA-XXXXX-X'"),
-                          ur'{{ config.GOOGLE_ANALYTICS_ID }}')],
+    'google_analytics': [(re.compile(u"'UA-XXXXX-X'"),
+                          u'{{ config.GOOGLE_ANALYTICS_ID }}')],
     # Remove charset meta tag (use charset in Content-Type header instead)
-    'no_charset_tag': [(re.compile(ur' +.*charset="utf-8".*>\n'), ur'')],
+    'no_charset_tag': [(re.compile(u' +.*charset="utf-8".*>\n'), u'')],
     # Remove IE compat tag (use header instead)
-    'no_compat_tag': [(re.compile(ur' +.*X-UA-Compatible.*>\n'), ur'')],
+    'no_compat_tag': [(re.compile(u' +.*X-UA-Compatible.*>\n'), u'')],
     # Make it obvious to Vim that it's a Jinja file
-    'vim': [(re.compile(ur'(<!DOCTYPE html>)'),
-             ur'\1 {#- vim: set ft=jinja: #}')],
+    'vim': [(re.compile(u'(<!DOCTYPE html>)'),
+             u'\\1 {#- vim: set ft=jinja: #}')],
     # webassets support
     'webassets': [
         # CSS
-        (re.compile(ur'(?:(\s+)(<link rel="stylesheet" href=").*?(">\n))+'),
-         ur'''
-\1{% assets 'css_all' -%}
-\1\2{{ ASSET_URL }}\3\1{% endassets -%}
+        (re.compile(u'(?:(\\s+)(<link rel="stylesheet" href=").*?(">\n))+'),
+         u'''
+\\1{% assets 'css_all' -%}
+\\1\\2{{ ASSET_URL }}\\3\\1{% endassets -%}
 '''),
         # JS
         (re.compile(u'''\
 (<body>.*?)(?:(\s+)(<script src=")[^/].*?("></script>)\n)+''',
                     re.DOTALL),
-         ur'''\1
-\2{% assets 'js_all' -%}
-\2\3{{ ASSET_URL }}\4
-\2{% endassets -%}
+         u'''\\1
+\\2{% assets 'js_all' -%}
+\\2\\3{{ ASSET_URL }}\\4
+\\2{% endassets -%}
 '''),
     ],
 }
 
 SUBS = [
     # title
-    (re.compile(ur'(<(title>))(</\2)', re.MULTILINE),
-     ur'\1{% block title %}{% endblock %}\3'),
+    (re.compile(u'(<(title>))(</\\2)', re.MULTILINE),
+     u'\\1{% block title %}{% endblock %}\\3'),
     # HTML comments -> Jinja comments
-    (re.compile(ur'<!-- (.*?) -->', re.MULTILINE), ur'{# \1 #}'),
+    (re.compile(u'<!-- (.*?) -->', re.MULTILINE), u'{# \\1 #}'),
     # meta description
-    (re.compile(ur'(<meta name="description" content=")(">)'),
-     ur'{% if meta_description %}\1{{ meta_description }}\2{% endif %}'),
+    (re.compile(u'(<meta name="description" content=")(">)'),
+     u'{% if meta_description %}\\1{{ meta_description }}\\2{% endif %}'),
     # content
-    (re.compile(ur'<p>.*?</p>'), ur'{% block content %}{% endblock %}'),
+    (re.compile(u'<p>.*?</p>'), u'{% block content %}{% endblock %}'),
 ]
 
 
 def parse_template(tpl_obj, **kwargs):
     tpl = tpl_obj.read()
-    subs = SUBS + list(chain(*[s for k, s in OPTIONAL_SUBS.iteritems()
+    subs = SUBS + list(chain(*[s for k, s in _iterify(OPTIONAL_SUBS)
                                if kwargs.get(k)]))
     for regex, repl in subs:
         tpl = regex.sub(repl, tpl)
