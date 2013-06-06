@@ -21,6 +21,11 @@ from flake8.main import check_file
 import os
 import sys
 
+if sys.version_info < (2, 7):
+    from unittest2 import TestLoader, TextTestRunner
+else:
+    from unittest import TestLoader, TextTestRunner
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CODE_DIR = os.path.join(BASE_DIR, 'h5bp_jinja')
 
@@ -34,7 +39,13 @@ def main():
             print('Total Errors: {0}'.format(error_count), file=sys.stderr)
             return 1
 
-    return 0
+    # unit tests
+    suite = TestLoader().discover(CODE_DIR, top_level_dir=BASE_DIR)
+    result = TextTestRunner().run(suite)
+    if len(result.errors) > 0:
+        return 1
+    else:
+        return 0
 
 if __name__ == '__main__':
     sys.exit(main())
