@@ -18,5 +18,9 @@
 import sys
 from .cli import main
 
-if __name__ == '__main__':
+
+def run():
     sys.exit(main(sys.argv))
+
+if __name__ == '__main__':
+    run()

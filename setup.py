@@ -16,5 +16,8 @@ setup(name='h5bp_jinja',
       version='1.0',
       author='Mark Lee',
       packages=['h5bp_jinja'],
+      entry_points={
+          'console_scripts': ['h5bp-jinja = h5bp_jinja.__main__:run'],
+      },
       install_requires=requires,
       extras_require=extras)
