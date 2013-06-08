@@ -27,19 +27,20 @@ OPTIONAL_SUBS = {
     # Remove IE compat tag (use header instead)
     'no_compat_tag': [(re.compile(u' +.*X-UA-Compatible.*>\n'), u'')],
     # Make it obvious to Vim that it's a Jinja file
-    'vim': [(re.compile(u'(<!DOCTYPE html>)'),
+    'vim': [(re.compile(u'(<!DOCTYPE html>)$'),
              u'\\1 {#- vim: set ft=jinja: #}')],
     # webassets support
     'webassets': [
         # CSS
-        (re.compile(u'(?:(\\s+)(<link rel="stylesheet" href=").*?(">\n))+'),
+        (re.compile(u'''\
+(?:(\\s+)(<link rel="stylesheet" href=")[^{].*?(">\n))+'''),
          u'''
 \\1{% assets 'css_all' -%}
 \\1\\2{{ ASSET_URL }}\\3\\1{% endassets -%}
 '''),
         # JS
         (re.compile(u'''\
-(<body>.*?)(?:(\s+)(<script src=")[^/].*?("></script>)\n)+''',
+(<body>.*?)(?:(\s+)(<script src=")[^{/].*?("></script>)\n)+''',
                     re.DOTALL),
          u'''\\1
 \\2{% assets 'js_all' -%}
