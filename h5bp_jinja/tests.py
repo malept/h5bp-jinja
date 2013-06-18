@@ -17,21 +17,21 @@
 from . import OPTIONAL_SUBS, parse_template, SUBS
 from ._compat import _iterify
 import os
-try:  # Python >= 3
+try:  # Python >= 3 pragma: no cover
     from io import StringIO
-except ImportError:
+except ImportError:  # pragma: no cover
     from StringIO import StringIO
 import sys
 
-if sys.version_info < (2, 7):
+if sys.version_info < (2, 7):  # pragma: no cover
     from unittest2 import skipUnless, TestCase
-else:
+else:  # pragma: no cover
     from unittest import skipUnless, TestCase
 
-if sys.version_info < (3,):
+if sys.version_info < (3,):  # pragma: no cover
     import codecs
     uopen = lambda f, m='r', **k: codecs.open(f, m, encoding='utf-8', **k)
-else:
+else:  # pragma: no cover
     uopen = open
 
 BOILERPLATE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)),
@@ -73,7 +73,7 @@ class H5BPJinjaTestCase(TestCase):
                 self.assertNotRegex(parsed, regex,
                                     'Regex matched for {0}'.format(flag))
 
-    if sys.version_info < (3, 2):
+    if sys.version_info < (3, 2):  # pragma: no cover
 
         def assertNotRegex(self, s, re, msg=None):
             return self.assertNotRegexpMatches(s, re, msg)

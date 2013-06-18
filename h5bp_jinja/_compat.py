@@ -22,7 +22,7 @@ def _iterify(dict_obj):
     Iterate through a dictionary's items in a way that works in both Python
     2.x and 3.x.
     '''
-    if sys.version_info[0] < 3:
+    if sys.version_info[0] < 3:  # pragma: no cover
         return dict_obj.iteritems()
-    else:
+    else:  # pragma: no cover
         return dict_obj.items()
