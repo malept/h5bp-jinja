@@ -3,7 +3,8 @@
 
 
 A small script that converts an `HTML5 Boilerplate`_ template into a `Jinja2`_
-template.
+template. It is also available as a Python module, for integration into
+Python-based build systems.
 
 .. _HTML5 Boilerplate: http://html5boilerplate.com/
 .. _Jinja2: http://jinja.pocoo.org/
@@ -27,8 +28,8 @@ To install the script, run::
 
 .. _argcomplete: https://github.com/kislyuk/argcomplete
 
-Usage
------
+Command-line Usage
+------------------
 
 For usage instructions, consult ``h5bp-jinja --help``. If you are so inclined
 (and your flavor of Python supports it), you can also run the script by
