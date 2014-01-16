@@ -1,2 +1,2 @@
 -r requirements.txt
-flake8
+flake8 >= 2.1.0
