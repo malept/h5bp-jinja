@@ -1,6 +1,8 @@
 ``h5bp_jinja``
 ==============
 
+.. image:: https://travis-ci.org/malept/h5bp-template.png?branch=master
+   :alt: Travis CI status, see https://travis-ci.org/malept/h5bp-template
 
 A small script that converts an `HTML5 Boilerplate`_ template into a `Jinja2`_
 template. It is also available as a Python module, for integration into
@@ -34,9 +36,3 @@ Command-line Usage
 For usage instructions, consult ``h5bp-jinja --help``. If you are so inclined
 (and your flavor of Python supports it), you can also run the script by
 invoking the module, e.g., ``python -m h5bp_jinja --help``.
-
-Build Status
-------------
-
-.. image:: https://travis-ci.org/malept/h5bp-jinja.png?branch=master
-   :alt: Travis CI status, see https://travis-ci.org/malept/h5bp-jinja
