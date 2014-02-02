@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2013 Mark Lee
+# Copyright 2013, 2014 Mark Lee
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,35 +14,37 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import unicode_literals
+
 from ._compat import _iterify
 from itertools import chain
 import re
 
 OPTIONAL_SUBS = {
     # Google Analytics ID in config
-    'google_analytics': [(re.compile(u"'UA-XXXXX-X'"),
-                          u'{{ config.GOOGLE_ANALYTICS_ID }}')],
+    'google_analytics': [(re.compile("'UA-XXXXX-X'"),
+                          '{{ config.GOOGLE_ANALYTICS_ID }}')],
     # Remove charset meta tag (use charset in Content-Type header instead)
-    'no_charset_tag': [(re.compile(u' +.*charset="utf-8".*>\n'), u'')],
+    'no_charset_tag': [(re.compile(' +.*charset="utf-8".*>\n'), '')],
     # Remove IE compat tag (use header instead)
-    'no_compat_tag': [(re.compile(u' +.*X-UA-Compatible.*>\n'), u'')],
+    'no_compat_tag': [(re.compile(' +.*X-UA-Compatible.*>\n'), '')],
     # Make it obvious to Vim that it's a Jinja file
-    'vim': [(re.compile(u'(<!DOCTYPE html>)$'),
-             u'\\1 {#- vim: set ft=jinja: #}')],
+    'vim': [(re.compile('(<!DOCTYPE html>)$'),
+             '\\1 {#- vim: set ft=jinja: #}')],
     # webassets support
     'webassets': [
         # CSS
-        (re.compile(u'''\
+        (re.compile('''\
 (?:(\\s+)(<link rel="stylesheet" href=")[^{].*?(">\n))+'''),
-         u'''
+         '''
 \\1{% assets 'css_all' -%}
 \\1\\2{{ ASSET_URL }}\\3\\1{% endassets -%}
 '''),
         # JS
-        (re.compile(u'''\
+        (re.compile('''\
 (<body>.*?)(?:(\s+)(<script src=")[^{/].*?("></script>)\n)+''',
                     re.DOTALL),
-         u'''\\1
+         '''\\1
 \\2{% assets 'js_all' -%}
 \\2\\3{{ ASSET_URL }}\\4
 \\2{% endassets -%}
@@ -52,15 +54,15 @@ OPTIONAL_SUBS = {
 
 SUBS = [
     # title
-    (re.compile(u'(<(title>))(</\\2)', re.MULTILINE),
-     u'\\1{% block title %}{% endblock %}\\3'),
+    (re.compile('(<(title>))(</\\2)', re.MULTILINE),
+     '\\1{% block title %}{% endblock %}\\3'),
     # HTML comments -> Jinja comments
-    (re.compile(u'<!-- (.*?) -->', re.MULTILINE), u'{# \\1 #}'),
+    (re.compile('<!-- (.*?) -->', re.MULTILINE), '{# \\1 #}'),
     # meta description
-    (re.compile(u'(<meta name="description" content=")(">)'),
-     u'{% if meta_description %}\\1{{ meta_description }}\\2{% endif %}'),
+    (re.compile('(<meta name="description" content=")(">)'),
+     '{% if meta_description %}\\1{{ meta_description }}\\2{% endif %}'),
     # content
-    (re.compile(u'<p>.*?</p>'), u'{% block content %}{% endblock %}'),
+    (re.compile('<p>.*?</p>'), '{% block content %}{% endblock %}'),
 ]
 
 
