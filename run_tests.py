@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Copyright 2013 Mark Lee
+# Copyright 2013, 2014 Mark Lee
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ def main():
 
     exit_code = print_report(report, flake8)
     if exit_code > 0:
-        sys.exit(exit_code)
+        return exit_code
 
     # unit tests
     suite = TestLoader().discover(CODE_DIR, top_level_dir=BASE_DIR)
