@@ -1,4 +1,4 @@
-``h5bp_jinja``
+``h5bp_template``
 ==============
 
 .. image:: https://travis-ci.org/malept/h5bp-template.png?branch=master
@@ -15,7 +15,7 @@ Python-based build systems.
 Installation
 ------------
 
-``h5bp_jinja`` should run on Python 2.6, 2.7, and 3.3, and also on PyPy. It
+``h5bp_template`` should run on Python 2.6, 2.7, and 3.3, and also on PyPy. It
 has not been tested on Jython 2.7, but I don't see any reason why it wouldn't
 run there.
 
@@ -26,13 +26,13 @@ The `argcomplete`_ (shell completion) module is optional.
 
 To install the script, run::
 
-    pip install git+git://github.com/malept/h5bp-jinja#egg=h5bp_jinja
+    pip install git+git://github.com/malept/h5bp-template#egg=h5bp_template
 
 .. _argcomplete: https://github.com/kislyuk/argcomplete
 
 Command-line Usage
 ------------------
 
-For usage instructions, consult ``h5bp-jinja --help``. If you are so inclined
+For usage instructions, consult ``h5bp-template --help``. If you are so inclined
 (and your flavor of Python supports it), you can also run the script by
-invoking the module, e.g., ``python -m h5bp_jinja --help``.
+invoking the module, e.g., ``python -m h5bp_template --help``.

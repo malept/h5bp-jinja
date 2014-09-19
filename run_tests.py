@@ -28,7 +28,7 @@ else:
     from unittest import TestLoader, TextTestRunner
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-CODE_DIR = os.path.join(BASE_DIR, 'h5bp_jinja')
+CODE_DIR = os.path.join(BASE_DIR, 'h5bp_tpl')
 
 
 def main():
